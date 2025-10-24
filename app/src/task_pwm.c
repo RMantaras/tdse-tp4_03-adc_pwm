@@ -52,6 +52,7 @@
 
 #define STEP (2048)
 #define PERIOD (65535)
+#define ADC_MAX (4095)
 
 /********************** internal data declaration ****************************/
 
@@ -82,13 +83,18 @@ void task_pwm_update(void *parameters)
 {
 
 	static uint16_t period=PERIOD;
-	static int16_t step = STEP;
+	//static int16_t step = STEP;
 
 	shared_data_type *shared_data = (shared_data_type *) parameters;
 
 	if ( shared_data->adc_end_of_conversion ) {
 		shared_data->adc_end_of_conversion = false;
+
+		shared_data->pwm_active = (shared_data->adc_value*PERIOD)/ADC_MAX;
+
 		setPWM(htim3, TIM_CHANNEL_1, period, shared_data->pwm_active);
+
+		/*
 		if ( step>0 ) {
 			if ( period-step<=shared_data->pwm_active ) {
 				step = step * -1;
@@ -100,6 +106,7 @@ void task_pwm_update(void *parameters)
 			}
 		}
 		shared_data->pwm_active = shared_data->pwm_active + step;
+		*/
 	}
 }
 

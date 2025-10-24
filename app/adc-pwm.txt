@@ -1,0 +1,13 @@
+
+
+Se utiliza el valor pwm_active para controlar el duty del PWM. 
+Una vez adquirido se lo escala proporcionalmente para el rango del periodo del timer.
+
+Period = 65535
+Adc_max = 4096
+
+pwm active debe variar entre 0 t period utilizando adc_value como variable de control. Se observa un poco de inestabilidad por este motivo.
+
+Timer 3 se utiliza sobre CHANNEL 1 (D12), y toma del clock de HSI
+
+ADC se encuentra en modo conversión por polling, configurado en el canal A0.
